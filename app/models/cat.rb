@@ -2,10 +2,11 @@ require 'action_view'
 
 class Cat < ApplicationRecord
   include ActionView::Helpers::DateHelper
-  COLORS = [
+  COLORS = %w(white black brown calico)
 
   validates_presence_of :name, :color, :sex, :birth_date, :description
-  validates :color, inclusion: { in: %w(white black brown calico), message: "%{value} is not a valid color" }
+  
+  validates :color, inclusion: { in: COLORS, message: "%{value} is not a valid color" }
   validates :sex, length: { is: 1 }, inclusion: { in: %w(M F), message: "%{value} is not a valid sex" }
 
   def age
