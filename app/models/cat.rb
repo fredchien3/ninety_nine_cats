@@ -7,7 +7,10 @@ class Cat < ApplicationRecord
   validates_presence_of :name, :color, :sex, :birth_date, :description
   
   validates :color, inclusion: { in: COLORS, message: "%{value} is not a valid color" }
-  validates :sex, length: { is: 1 }, inclusion: { in: %w(m f), message: "%{value} is not a valid sex" }
+  validates :sex, length: { is: 1 }, inclusion: { in: %w(M F), message: "%{value} is not a valid sex" }
+
+  has_many :cat_rental_requests, dependent: :destroy
+
 
   def self.colors
     COLORS
