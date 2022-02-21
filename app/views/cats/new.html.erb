@@ -1,38 +1,3 @@
-
 <h1>Submit New Cat</h1>
 
-<form 
-action="/cats" method="post">
-  <label for="name">Name:</label>
-  <input id="name" type="text", name="cat[name]">
-  <br>
-
-  <label for="sex">Sex: </label>
-  <input id="male_button" type="radio", name="cat[sex]", value="m">
-  <label for="male_button">M</label>
-  <input id="female_button" type="radio", name="cat[sex]", value="f">
-  <label for="female_button">F</label>
-  <br>
-
-  <label for="color">Color:</label>
-
-  <select name="cat[color]" id="color">
-    <option selected disabled>--select color--</option>
-    <% Cat.colors.each do |color| %>
-      <option value="<%= color %>"><%= color %></option>
-    <% end %>
-  </select>
-  <br>
-
-  <label for="birth_date">Birthday:</label>
-  <input id="birth_date" type="date", name="cat[birth_date]">
-  <br>
-
-  <label for="description">Description:</label>
-  <br>
-  <textarea name="cat[description]" id="description" placeholder="Type description here"></textarea>
-  <br>
-
-
-  <input type="submit" value="Submit cat">
-</form>
+<%= render 'form', action: :new, cat: @cat %>
