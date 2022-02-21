@@ -1,8 +1,8 @@
 class CatRentalRequest < ApplicationRecord
   validates_presence_of :cat_id, :start_date, :end_date, :status
   validates :status, inclusion: { in: %w(PENDING APPROVED DENIED), message: "%{value} is not a valid status" }
+  validate :does_not_overlap_approved_request, on: :create
   validate :end_after_start
-  validate :does_not_overlap_approved_request
 
   belongs_to :cat
 
@@ -24,7 +24,11 @@ class CatRentalRequest < ApplicationRecord
   end
 
   def overlapping_requests
-    CatRentalRequest.where.not('id = ?', self.id).where('cat_id = ?', self.cat_id).where.not('start_date > ? OR end_date < ?', self.end_date, self.start_date)
+    if self.id.nil?
+      CatRentalRequest.where('cat_id = ?', self.cat_id).where.not('start_date > ? OR end_date < ?', self.end_date, self.start_date)
+    else
+      CatRentalRequest.where.not('id = ?', self.id).where('cat_id = ?', self.cat_id).where.not('start_date > ? OR end_date < ?', self.end_date, self.start_date)
+    end
   end
 
   def overlapping_approved_requests
@@ -36,6 +40,6 @@ class CatRentalRequest < ApplicationRecord
   end
 
   def does_not_overlap_approved_request
-    errors.add(:dates, 'can\'t overlap an already approved request') if self.overlapping_approved_requests.exists?
+    errors.add(:dates, 'can\'t overlap an already approved request') unless !self.overlapping_approved_requests.exists?
   end
 end

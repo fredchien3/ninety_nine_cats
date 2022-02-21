@@ -38,11 +38,22 @@
       <td>End Date</td>
       <td>Status</td>
     </tr>
-    <% CatRentalRequest.where('cat_id = ?', @cat.id).order('start_date ASC').pluck(:start_date, :end_date, :status).each do |arr| %>
+    <% CatRentalRequest.where('cat_id = ?', @cat.id).order('start_date ASC').each do |request| %>
       <tr>
-        <td><%= arr[0] %></td>
-        <td><%= arr[1] %></td>
-        <td><%= arr[2] %></td>
+        <td><%= request.start_date %></td>
+        <td><%= request.end_date %></td>
+        <td><%= request.status %></td>
+        <% if request.status == "PENDING" %>
+
+          <form action="<%= approve_catrentalrequest_url(request) %>" method="post">
+            <td><button type="submit" value="approve">approve</button></td>
+          </form>
+
+          <form action="<%= deny_catrentalrequest_url(request) %>" method="post">
+            <td><button type="submit" value="deny">deny</button></td>
+          </form>
+
+        <% end %>
       </tr>
     <% end %>
 
