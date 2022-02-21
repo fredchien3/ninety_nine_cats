@@ -1,0 +1,23 @@
+<h1>Rent a Cat!</h1>
+
+<form action="<%= catrentalrequests_url %>" method="post">
+  <select name="catrentalrequest[cat_id]" id="cat_list">
+    <option disabled>--select cat--</option>
+    <% Cat.all.pluck(:name, :id).each do |arr| %>
+      <option value="<%= arr[1] %>">
+        <%= arr[0] %>
+      </option>
+    <% end %>
+  </select>
+  <br>
+
+  <label for="start_date">Start date:</label>
+  <input id="start_date" type="date", name="catrentalrequest[start_date]", value="<%= Date.today %>">
+  <br>
+
+  <label for="end_date">End date:</label>
+  <input id="end_date" type="date", name="catrentalrequest[end_date]", value="<%= Date.today %>">
+  <br>
+
+  <input type="submit" value="Submit Request">
+</form>

@@ -22,5 +22,29 @@
       <td>Description</td>
       <td><%= @cat.description %></td>
     </tr>
-  </tbody>  
+  </tbody> 
+</table>
+<br>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="2">Rental Requests</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Start Date</td>
+      <td>End Date</td>
+      <td>Status</td>
+    </tr>
+    <% CatRentalRequest.where('cat_id = ?', @cat.id).order('start_date ASC').pluck(:start_date, :end_date, :status).each do |arr| %>
+      <tr>
+        <td><%= arr[0] %></td>
+        <td><%= arr[1] %></td>
+        <td><%= arr[2] %></td>
+      </tr>
+    <% end %>
+
+  </tbody>
 </table>
