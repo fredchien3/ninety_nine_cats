@@ -6,6 +6,17 @@
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= current_user ? "hello, #{current_user.user_name}" : 'browsing as guest' %>
+    <% if current_user %>
+    <form action="/session" method="POST">
+      <input type="hidden" name="_method" value="DELETE">
+      <button type="submit">LOG OUT</button>
+    </form>
+    <% else %>
+    <form action="<%= new_session_url %>" method="get">
+      <button type="submit">LOG IN</button>
+    </form>
+    <% end %>
   </head>
 
   <body>
