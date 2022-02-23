@@ -1,4 +1,5 @@
 <h1><%= @cat.name %></h1>
+<h3>owner: <%= @cat.owner ? @cat.owner.user_name : 'none' %></h3>
 <table>
   <thead>
     <tr>
@@ -36,12 +37,14 @@
   </thead>
   <tbody>
     <tr>
+      <td>Requester</td>
       <td>Start Date</td>
       <td>End Date</td>
       <td>Status</td>
     </tr>
     <% CatRentalRequest.where('cat_id = ?', @cat.id).order('start_date ASC').each do |request| %>
       <tr>
+        <td><%= request.requester ? request.requester.user_name : nil %></td>
         <td><%= request.start_date %></td>
         <td><%= request.end_date %></td>
         <td><%= request.status %></td>

@@ -8,6 +8,7 @@ class CatrentalrequestsController < ApplicationController
 
   def create
     @request = CatRentalRequest.new(request_params)
+    @request.user_id = current_user.id
     if @request.save!
       redirect_to cat_url(@request.cat_id)
     else

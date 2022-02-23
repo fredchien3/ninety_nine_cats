@@ -1,10 +1,14 @@
 class CatRentalRequest < ApplicationRecord
-  validates_presence_of :cat_id, :start_date, :end_date, :status
+  validates_presence_of :cat_id, :start_date, :end_date, :status, :requester
   validates :status, inclusion: { in: %w(PENDING APPROVED DENIED), message: "%{value} is not a valid status" }
   validate :does_not_overlap_approved_request, on: :create
   validate :end_after_start
 
   belongs_to :cat
+
+  belongs_to :requester,
+    class_name: 'User',
+    foreign_key: :user_id
 
   def approve!
     CatRentalRequest.transaction do

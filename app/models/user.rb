@@ -9,6 +9,7 @@ class User < ApplicationRecord
   after_initialize :ensure_session_token
 
   has_many :cats
+  has_many :cat_rental_requests
 
   def owns_cat?(cat)
     cat.user_id == self.id
