@@ -26,6 +26,8 @@
 </table>
 <br>
 
+<% is_cat_owner = current_user && current_user.owns_cat?(@cat) %>
+
 <table>
   <thead>
     <tr>
@@ -43,16 +45,13 @@
         <td><%= request.start_date %></td>
         <td><%= request.end_date %></td>
         <td><%= request.status %></td>
-        <% if request.status == "PENDING" %>
-
+        <% if request.status == "PENDING" && is_cat_owner %>
           <form action="<%= approve_catrentalrequest_url(request) %>" method="post">
             <td><button type="submit" value="approve">approve</button></td>
           </form>
-
           <form action="<%= deny_catrentalrequest_url(request) %>" method="post">
             <td><button type="submit" value="deny">deny</button></td>
           </form>
-
         <% end %>
       </tr>
     <% end %>
